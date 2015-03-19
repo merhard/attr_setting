@@ -6,7 +6,9 @@ RSpec.describe AttrSetting do
   describe '#attr_setting' do
     class Klass
       extend AttrSetting
+
       attr_setting :foo
+      attr_setting :bar, :baz
     end
 
     let(:obj) { Klass.new }
@@ -25,6 +27,14 @@ RSpec.describe AttrSetting do
       obj.foo = :bar
 
       expect(obj.foo?).to eq(true)
+    end
+
+    it 'accepts a default value to the accessor as an argument' do
+      expect(obj.bar).to eq(:baz)
+
+      obj.bar = :foo
+
+      expect(obj.bar).to eq(:foo)
     end
   end
 end
