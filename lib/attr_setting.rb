@@ -10,6 +10,7 @@ module AttrSetting
       if instance_variable_defined?(ivar)
         instance_variable_get(ivar)
       else
+        default = instance_eval(&Proc.new) if block_given?
         instance_variable_set(ivar, default)
       end
     end

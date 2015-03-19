@@ -32,5 +32,22 @@ RSpec.describe AttrSetting do
 
       expect(obj.foo).to eq(:bar)
     end
+
+    it 'accepts a default value to the accessor as a block' do
+      klass.class_eval { attr_setting(:foo) { :bar } }
+
+      expect(obj.foo).to eq(:bar)
+    end
+
+    it 'evaluates block defaults lazily' do
+      klass.class_eval do
+        attr_setting :foo, "Initial"
+        attr_setting(:bar) { foo }
+      end
+
+      obj.foo = "New Value"
+
+      expect(obj.bar).to eq("New Value")
+    end
   end
 end
