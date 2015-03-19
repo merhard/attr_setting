@@ -18,5 +18,13 @@ RSpec.describe AttrSetting do
 
       expect(obj.foo).to eq(:bar)
     end
+
+    it 'creates a predicate method' do
+      expect(obj.foo?).to eq(false)
+
+      obj.foo = :bar
+
+      expect(obj.foo?).to eq(true)
+    end
   end
 end
