@@ -4,16 +4,12 @@ RSpec.describe AttrSetting do
   end
 
   describe '#attr_setting' do
-    class Klass
-      extend AttrSetting
-
-      attr_setting :foo
-      attr_setting :bar, :baz
-    end
-
-    let(:obj) { Klass.new }
+    let(:klass) { Class.new { extend AttrSetting } }
+    let(:obj)   { klass.new }
 
     it 'creates accessor methods' do
+      klass.class_eval { attr_setting :foo }
+
       expect(obj.foo).to eq(nil)
 
       obj.foo = :bar
@@ -22,6 +18,8 @@ RSpec.describe AttrSetting do
     end
 
     it 'creates a predicate method' do
+      klass.class_eval { attr_setting :foo }
+
       expect(obj.foo?).to eq(false)
 
       obj.foo = :bar
@@ -30,11 +28,9 @@ RSpec.describe AttrSetting do
     end
 
     it 'accepts a default value to the accessor as an argument' do
-      expect(obj.bar).to eq(:baz)
+      klass.class_eval { attr_setting :foo, :bar }
 
-      obj.bar = :foo
-
-      expect(obj.bar).to eq(:foo)
+      expect(obj.foo).to eq(:bar)
     end
   end
 end
