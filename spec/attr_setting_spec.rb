@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe AttrSetting do
+RSpec.describe AttrSetting do
   it 'has a version number' do
     expect(AttrSetting::VERSION).not_to be nil
   end
