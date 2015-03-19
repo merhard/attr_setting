@@ -49,5 +49,31 @@ RSpec.describe AttrSetting do
 
       expect(obj.bar).to eq("New Value")
     end
+
+    it 'allows default value to be reset' do
+      klass.class_eval { attr_setting :foo, :bar }
+
+      obj.foo = :baz
+      obj.foo!
+
+      expect(obj.foo).to eq(:bar)
+    end
+
+    it 'reevaluates block when reset' do
+      klass.class_eval do
+        attr_setting :foo, "Initial"
+        attr_setting(:bar) { foo }
+      end
+
+      expect(obj.bar).to eq("Initial")
+
+      obj.foo = "New Value"
+
+      expect(obj.bar).to eq("Initial")
+
+      obj.bar!
+
+      expect(obj.bar).to eq("New Value")
+    end
   end
 end
