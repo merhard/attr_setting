@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Enhanced attr_accessor}
   spec.description   = %q{Supplies macro similar to attr_accessor that adds default values, predicate methods, and other enhancements}
   spec.homepage      = "https://github.com/merhard/attr_setting"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
