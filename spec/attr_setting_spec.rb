@@ -75,5 +75,13 @@ RSpec.describe AttrSetting do
 
       expect(obj.bar).to eq("New Value")
     end
+
+    it 'treats reader methods with arguments as writer methods' do
+      klass.class_eval { attr_setting :foo }
+
+      obj.foo :bar
+
+      expect(obj.foo).to eq(:bar)
+    end
   end
 end

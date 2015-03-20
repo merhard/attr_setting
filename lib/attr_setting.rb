@@ -6,7 +6,9 @@ module AttrSetting
 
     attr_writer setting
 
-    define_method(setting) do
+    define_method(setting) do |value = :_not_supplied|
+      return instance_variable_set(ivar, value) unless value == :_not_supplied
+
       if instance_variable_defined?(ivar)
         instance_variable_get(ivar)
       else
