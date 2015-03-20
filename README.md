@@ -31,6 +31,11 @@ class Config
 end
 ```
 
+A monkeypatch is available to auto-extend `AttrSetting` for use in all Module and Class definitions:
+```ruby
+require 'attr_setting/core_ext/module'
+```
+
 `attr_setting` adds default values to `attr_accessor` in the form of a second argument or block:
 ```ruby
 require 'attr_setting'
@@ -78,7 +83,6 @@ config = Config.new
 config.foo = 'New value'
 config.bar               # => 'New value'
 ```
-
 
 `attr_setting` also adds a couple other features besides default values for `attr_accessor`.
 
