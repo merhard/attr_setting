@@ -1,5 +1,5 @@
 require 'attr_setting'
 
 class Module
-  extend AttrSetting
+  include AttrSetting
 end
