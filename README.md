@@ -1,10 +1,6 @@
-[![Build Status](https://travis-ci.org/merhard/attr_setting.svg?branch=master)](https://travis-ci.org/merhard/attr_setting)
-
 # AttrSetting
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/attr_setting`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+[![Build Status](https://travis-ci.org/merhard/attr_setting.svg?branch=master)](https://travis-ci.org/merhard/attr_setting)
 
 ## Installation
 
@@ -24,13 +20,122 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`attr_setting` provides enhanced functionality to Ruby's `attr_accessor`.
+
+To use, require the library and extend the module:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+end
+```
+
+`attr_setting` adds default values to `attr_accessor` in the form of a second argument or block:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo, 'Second argument'
+  attr_setting(:bar) { 'Block' }
+end
+
+config = Config.new
+config.foo          # => 'Second argument'
+config.bar          # => 'Block'
+```
+
+The block is evaluated in the context of the object:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo, 'Foo value'
+  attr_setting(:bar) { foo }
+end
+
+config = Config.new
+config.foo          # => 'Foo value'
+config.bar          # => 'Foo value'
+```
+
+The block is lazily evaluated:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo
+  attr_setting(:bar) { foo }
+end
+
+config = Config.new
+config.foo = 'New value'
+config.bar               # => 'New value'
+```
+
+
+`attr_setting` also adds a couple other features besides default values for `attr_accessor`.
+
+It adds a predicate method:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo
+end
+
+config = Config.new
+config.foo?             # => false
+config.foo = :something
+config.foo?             # => true
+```
+
+It adds a bang method to reset values to their defaults:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo, 'Default'
+end
+
+config = Config.new
+config.foo               # => 'Default'
+config.foo = 'New value'
+config.foo               # => 'New value'
+config.foo!
+config.foo               # => 'Default'
+```
+
+It treats getters with an argument as setters:
+```ruby
+require 'attr_setting'
+
+class Config
+  extend AttrSetting
+
+  attr_setting :foo
+end
+
+config = Config.new
+config.foo('New value')
+config.foo              # => 'New value'
+```
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
