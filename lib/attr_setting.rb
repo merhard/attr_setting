@@ -1,6 +1,8 @@
 require "attr_setting/version"
 
 module AttrSetting
+  private
+
   def attr_setting(setting, default = nil)
     ivar = "@#{setting}"
 

@@ -83,5 +83,9 @@ RSpec.describe AttrSetting do
 
       expect(obj.foo).to eq(:bar)
     end
+
+    it 'is an internal only method' do
+      expect { klass.attr_setting :foo }.to raise_error(NoMethodError)
+    end
   end
 end
