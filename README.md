@@ -2,6 +2,39 @@
 
 [![Build Status](https://travis-ci.org/merhard/attr_setting.svg?branch=master)](https://travis-ci.org/merhard/attr_setting)
 
+## Why use `AttrSetting`?
+
+Imagine having a class definition similar to this one:
+
+```ruby
+class Configuration
+  attr_accessor :send_email
+
+  def initialize
+    @send_email = true
+  end
+
+  def send_email?
+    send_email
+  end
+end
+```
+
+The class defines a `Configuration` object that contains a setting for whether the application should send an email.
+The `send_email` setting defaults to true.
+
+There is a lot of repitition of "send_email" in this class definition. Any changes to this setting, be it a rename or deletion, requires changing multiple lines of code spread out over the class definition.
+
+`AttrSetting` DRYs up this definition in a clear, concise way:
+
+```ruby
+class Configuration
+  attr_setting :send_email, true
+end
+```
+
+No more repitition. Only one line of code to change.
+
 ## Installation
 
 Add this line to your application's Gemfile:
