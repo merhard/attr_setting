@@ -29,6 +29,8 @@ There is a lot of repitition of "send_email" in this class definition. Any chang
 
 ```ruby
 class Configuration
+  extend AttrSetting
+
   attr_setting :send_email, true
 end
 ```
